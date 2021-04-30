@@ -1,27 +1,18 @@
 
 resource "null_resource" "compute-script1" {
-  provisioner "file" {
+  provisioner "remote-exec" {
     connection {
       type        = "ssh"
       host        = var.public-ip1
-      user        = var.instance_user
+      agent       = false
+      user        = "opc"
       private_key = var.private_key
-    }
-    source      = "scripts/"
-    destination = "/home/opc/"
-  }
-
-  provisioner "remote-exec" {
-    connection {
-      host        = var.public-ip1
-      user        = var.instance_user
-      private_key = var.private_key
+      timeout     = "5m"
     }
 
     inline = [
-      "touch /home/opc/temp.txt",
-      "chmod +x /home/opc/test.sh",
-      "sudo yes | /home/opc/test.sh > /home/opc/c1output1.txt"
+      "while [ ! -f /tmp/cloud-init-complete ]; do sleep 1; done",
+      "docker run --detach -p 9000:9000 sonarqube"
     ]
   }
 }

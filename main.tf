@@ -14,7 +14,7 @@ module "compute" {
   tenancy_ocid            = var.tenancy_ocid
   compartment_ocid        = var.compartment_ocid
   availability_domain     = var.availability_domain
-  image_id                = lookup(data.oci_core_images.InstanceImageOCID.images[0], "id")
+  image_id                = data.oci_core_images.InstanceImageOCID.images[0].id
   public_ssh_key          = var.ssh_public_key
   subnet1_ocid            = module.vcn.subnet_ocid
   shape                   = var.node_shape
@@ -24,8 +24,7 @@ module "compute" {
 }
 
 module "remote-exec" {
-  source        = "./modules/remote"
-  public-ip1    = module.compute.public_ip
-  instance_user = var.instance_user
-  private_key   = module.compute.generated_private_key_pem
+  source      = "./modules/remote"
+  public-ip1  = module.compute.public_ip
+  private_key = module.compute.generated_private_key_pem
 }

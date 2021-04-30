@@ -6,8 +6,13 @@ data "oci_core_images" "InstanceImageOCID" {
   operating_system         = var.instance_os
   operating_system_version = var.linux_os_version
   shape                    = var.node_shape
-  sort_by                  = "TIMECREATED"
-  sort_order               = "DESC"
+  # sort_by                  = "TIMECREATED"
+  # sort_order               = "DESC"
+  filter {
+    name   = "display_name"
+    values = ["^.*Oracle[^G]*$"]
+    regex  = true
+  }
 }
 
 data "oci_identity_availability_domains" "ads" {

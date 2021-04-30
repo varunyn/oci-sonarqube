@@ -14,6 +14,7 @@ variableGroups:
       - fingerprint
       - private_key_path
       - image_ocid
+      - linux_os_version
 
   - title: Required Configuration
     visible: true
@@ -37,7 +38,6 @@ variableGroups:
       - ssh_public_key
       - generate_public_ssh_key
       - instance_os
-      - linux_os_version
       - node_shape
       - node_flex_shape_ocpus
       - node_flex_shape_memory
@@ -164,10 +164,9 @@ variables:
     required: false
     title: "Instance OS version"
     description: "An Operating System version that determines the operating system version for SonarQube host."
-    default: "8"
+    default: "7.9"
     enum:
-      - "7"
-      - "8"
+      - "7.9"
 
 outputGroups:
   - title: "SonarQube App details"
